@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -217,13 +218,25 @@ namespace WinForm_Chart
 
         private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            System.Text.StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.AppendFormat("{0} = {1} ", "ColumnIndex ", e.ColumnIndex);
-            stringBuilder.AppendLine();
-            stringBuilder.AppendFormat("{0} = {1} ", "ColumnIndex ", e.ColumnIndex);
-            stringBuilder.AppendLine();
-            MessageBox.Show(stringBuilder.ToString());
+            //System.Text.StringBuilder stringBuilder = new StringBuilder();
+            //stringBuilder.AppendFormat("{0} = {1} ", "ColumnIndex ", e.ColumnIndex);
+            //stringBuilder.AppendLine();
+            //stringBuilder.AppendFormat("{0} = {1} ", "ColumnIndex ", e.ColumnIndex);
+            //stringBuilder.AppendLine();
+            //MessageBox.Show(stringBuilder.ToString());
+
+
+            //string value = e.ColumnIndex.ToString();
+
+            
+            // 點兩下得到當下的值
+            label1.Text = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
+
+       
+
+
         }
+    
 
         private DataTable sampleData()
         {
@@ -258,8 +271,15 @@ namespace WinForm_Chart
 
             dt.Rows.Add(dr);
 
-        }
+            //box1.Text = dt.Rows[i]["Column1"].ToString();
+            //label1.Text = dataGridView1.Rows[1].ToString();
 
+
+            var a = sender as DataGridView;
+            
+
+
+        }
 
 
 
@@ -270,8 +290,17 @@ namespace WinForm_Chart
             
 
         }
-  
 
+        private void OnEditRow(object sender, DataGridViewCellEventArgs e)
+        {
+            var dvg = sender as DataGridView;
+            //Get the current row's data, if any
+            var row = dvg.Rows[e.RowIndex];
+
+            var moive = row.DataBoundItem;
+            label1.Text = moive.ToString();
+
+        }
 
     }
 
