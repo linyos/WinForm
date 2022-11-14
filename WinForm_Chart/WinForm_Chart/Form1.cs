@@ -8,7 +8,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using System.IO;
+using Newtonsoft.Json;
 namespace WinForm_Chart
 {
     public partial class Form1 : Form
@@ -23,11 +24,16 @@ namespace WinForm_Chart
 
 
 
-
-
-
-
-    
+        public class Data
+        {
+            //[JsonProperty("age")]
+            public int Id { get; set; }
+            public string Firstname { get; set; }
+            public string Lastname { get; set; }
+            public string City { get; set; }
+            //[JsonProperty("name")]
+            
+        }
 
         public Form1()
         {
@@ -228,11 +234,11 @@ namespace WinForm_Chart
 
             //string value = e.ColumnIndex.ToString();
 
-            
-            // 點兩下得到當下的值
-            label1.Text = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
 
-       
+            // 點兩下得到當下的值
+            //label1.Text = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
+
+
 
 
         }
@@ -240,13 +246,12 @@ namespace WinForm_Chart
 
         private DataTable sampleData()
         {
-
             using (DataTable table = new DataTable())
             {
                 table.Columns.Add("ID", typeof(int));
-                table.Columns.Add("Name", typeof(string));
-
-
+                table.Columns.Add("Firstname", typeof(string));
+                table.Columns.Add("Lastname", typeof(string));
+                table.Columns.Add("City", typeof(string));
                 return table;
             }
 
@@ -255,40 +260,32 @@ namespace WinForm_Chart
         private void button1_Click(object sender, EventArgs e)
         {
 
-
-            //DataRow dr = dt.NewRow();
-            //dr["ID"] = 001;
-            //dr["Name"] = "Allen";
-            //dt.Rows.Add(dr);
-
-
             cvDesBind();
-
-
-            DataRow dr = dt.NewRow();
-            dr["ID"] = DBData[0].ID;
-            dr["Name"] = DBData[0].Name;
-
-            dt.Rows.Add(dr);
 
             //box1.Text = dt.Rows[i]["Column1"].ToString();
             //label1.Text = dataGridView1.Rows[1].ToString();
-
-
-            var a = sender as DataGridView;
-            
-
-
         }
 
 
 
         private void cvDesBind()
         {
-            DBData= new List<Data>();
-            DBData.Add(new Data() {ID = 001 , Name="Allen"});
-            
-
+            List<Data> source = new List<Data>();
+            string path = @"C:\SEN\Coding\C#\WinForm\WinForm_Chart\WinForm_Chart\test.json";
+            using (StreamReader r = new StreamReader(path))
+            {
+                string jsonText = r.ReadToEnd();
+                source = System.Text.Json.JsonSerializer.Deserialize<List<Data>>(jsonText);
+            }
+            foreach (var item in source.ToList())
+            {
+                DataRow dr = dt.NewRow();
+                dr["ID"] = item.Id;
+                dr["Firstname"] = item.Firstname;
+                dr["Lastname"] = item.Lastname;
+                dr["City"] = item.City;
+                dt.Rows.Add(dr);
+            }
         }
 
         private void OnEditRow(object sender, DataGridViewCellEventArgs e)
@@ -302,15 +299,24 @@ namespace WinForm_Chart
 
         }
 
+
+
+        /// <summary>
+        /// Revise DataGridView  Value
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            label1.Text = "Change Value";
+            
+            label1.Text = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
+        }
     }
 
 
 
 
 
-    public class  Data
-    {
-        public int ID { get; set; }
-        public string Name { get; set;}
-    }
+ 
 }
