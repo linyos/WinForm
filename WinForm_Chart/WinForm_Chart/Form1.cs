@@ -15,7 +15,7 @@ namespace WinForm_Chart
     public partial class Form1 : Form
     {
         public DataTable dt;
-        public List<Data> DBData;
+        //public List<Data> DBData;
 
         // 對應資料來源 DataTable 的欄位索引
         private int IDColIndex = 0;
@@ -24,16 +24,16 @@ namespace WinForm_Chart
 
 
 
-        public class Data
-        {
-            //[JsonProperty("age")]
-            public int Id { get; set; }
-            public string Firstname { get; set; }
-            public string Lastname { get; set; }
-            public string City { get; set; }
-            //[JsonProperty("name")]
+        //public class Data
+        //{
+        //    //[JsonProperty("age")]
+        //    public int Id { get; set; }
+        //    public string Firstname { get; set; }
+        //    public string Lastname { get; set; }
+        //    public string City { get; set; }
+        //    //[JsonProperty("name")]
             
-        }
+        //}
 
         public Form1()
         {
@@ -41,7 +41,7 @@ namespace WinForm_Chart
 
             dt = dt ?? sampleData();
 
-            dataGridView1.DataSource = dt;
+            //dataGridView1.DataSource = dt;
         }
 
 
@@ -230,16 +230,9 @@ namespace WinForm_Chart
             //stringBuilder.AppendFormat("{0} = {1} ", "ColumnIndex ", e.ColumnIndex);
             //stringBuilder.AppendLine();
             //MessageBox.Show(stringBuilder.ToString());
-
-
             //string value = e.ColumnIndex.ToString();
-
-
             // 點兩下得到當下的值
             //label1.Text = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
-
-
-
 
         }
     
@@ -261,31 +254,33 @@ namespace WinForm_Chart
         {
 
             cvDesBind();
+            Form2 form2 = new Form2();
+            this.Hide();
+            form2.ShowDialog();
 
-            //box1.Text = dt.Rows[i]["Column1"].ToString();
-            //label1.Text = dataGridView1.Rows[1].ToString();
+            this.Close();
         }
 
 
 
         private void cvDesBind()
         {
-            List<Data> source = new List<Data>();
-            string path = @"C:\SEN\Coding\C#\WinForm\WinForm_Chart\WinForm_Chart\test.json";
-            using (StreamReader r = new StreamReader(path))
-            {
-                string jsonText = r.ReadToEnd();
-                source = System.Text.Json.JsonSerializer.Deserialize<List<Data>>(jsonText);
-            }
-            foreach (var item in source.ToList())
-            {
-                DataRow dr = dt.NewRow();
-                dr["ID"] = item.Id;
-                dr["Firstname"] = item.Firstname;
-                dr["Lastname"] = item.Lastname;
-                dr["City"] = item.City;
-                dt.Rows.Add(dr);
-            }
+            //List<Data> source = new List<Data>();
+            //string path = @"C:\SEN\Coding\C#\WinForm\WinForm_Chart\WinForm_Chart\test.json";
+            //using (StreamReader r = new StreamReader(path))
+            //{
+            //    string jsonText = r.ReadToEnd();
+            //    source = System.Text.Json.JsonSerializer.Deserialize<List<Data>>(jsonText);
+            //}
+            //foreach (var item in source.ToList())
+            //{
+            //    DataRow dr = dt.NewRow();
+            //    dr["ID"] = item.Id;
+            //    dr["Firstname"] = item.Firstname;
+            //    dr["Lastname"] = item.Lastname;
+            //    dr["City"] = item.City;
+            //    dt.Rows.Add(dr);
+            //}
         }
 
         private void OnEditRow(object sender, DataGridViewCellEventArgs e)
@@ -301,17 +296,18 @@ namespace WinForm_Chart
 
 
 
+
         /// <summary>
         /// Revise DataGridView  Value
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
-        {
-            label1.Text = "Change Value";
+        //private void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        //{
+        //    label1.Text = "Change Value";
             
-            label1.Text = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
-        }
+        //    //label1.Text = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
+        //}
     }
 
 
