@@ -19,7 +19,7 @@ namespace WinForm_Chart
     public partial class Form2 : Form
     {
         public DataTable dt;
-
+        private readonly string path = @"C:\SEN\Coding\C#\WinForm\WinForm_Chart\WinForm_Chart\test.json";
         public Form2()
         {
             InitializeComponent();
@@ -43,14 +43,9 @@ namespace WinForm_Chart
        
         private void DBBind()
         {
-            //List<Data> source = new List<Data>();
-            string path = @"C:\SEN\Coding\C#\WinForm\WinForm_Chart\WinForm_Chart\test.json";
-            //using (StreamReader reader = new StreamReader(path))
-            //{
-            //    string jsonText = reader.ReadToEnd();
-            //    source = System.Text.Json.JsonSerializer.Deserialize<List<Data>>(jsonText);
-            //}
-
+   
+            //string path = @"C:\SEN\Coding\C#\WinForm\WinForm_Chart\WinForm_Chart\test.json";
+           
            
             var source =Method.ReadJson(path);
 
@@ -77,6 +72,75 @@ namespace WinForm_Chart
         private void button1_Click(object sender, EventArgs e)
         {
             DBBind();
+        }
+
+        private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            //label1.Text = "Rows: " + e.RowIndex.ToString() + " Col: " + e.ColumnIndex.ToString();
+            //label1.Text = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
+          //label1.Text=  dataGridView1.CurrentRow.Cells["ID"].Value.ToString();
+        }
+
+        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                textBox1.Text = dataGridView1.CurrentRow.Cells["ID"].FormattedValue.ToString();
+                textBox2.Text = dataGridView1.CurrentRow.Cells["Firstname"].FormattedValue.ToString();
+                textBox3.Text = dataGridView1.CurrentRow.Cells["Lastname"].FormattedValue.ToString();
+                textBox4.Text = dataGridView1.CurrentRow.Cells["City"].FormattedValue.ToString();
+            }
+            
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+
+            // CurrentCell.ColumnIndex : 現在的column
+            // CurrentCell.RowIndex: 現在的Row
+            //label1.Text = "Rows: " + dataGridView1.CurrentCell.ColumnIndex.ToString() +
+            //    " Cols: " + dataGridView1.CurrentCell.RowIndex.ToString();
+
+            //int rows = dataGridView1.CurrentCell.ColumnIndex;
+            //int cells = dataGridView1.CurrentCell.RowIndex;
+            ////dataGridView1.Rows[cells].Cells[rows].Value = textBox1.Text;
+           
+            //dataGridView1.CurrentRow.Cells["ID"].Value = textBox1.Text;
+            //dataGridView1.CurrentRow.Cells["Firstname"].Value = textBox2.Text;
+            
+            ReviseJson();
+        }
+
+
+        private void ReviseJson()
+        {
+            //string json = File.ReadAllText(path);
+            //dynamic jsonObj = JsonConvert.DeserializeObject(json);
+            //jsonObj["Id"] = 550;
+            //string output = JsonConvert.SerializeObject(jsonObj, Newtonsoft.Json.Formatting.Indented);
+            //File.WriteAllText(path, output);
+
+
+            //dynamic jsonObj = Newtonsoft.Json.JsonConvert.DeserializeObject(json);
+            //jsonObj["Bots"][0]["Password"] = "new password";
+            //string output = Newtonsoft.Json.JsonConvert.SerializeObject(jsonObj, Newtonsoft.Json.Formatting.Indented);
+            //File.WriteAllText("settings.json", output);
+
+            List<Data> source = new List<Data>();
+            string writeResult = null;
+            using (StreamReader reader = new StreamReader(path))
+            {
+                string jsonText = reader.ReadToEnd();
+                 dynamic jsonObj = System.Text.Json.JsonSerializer.Deserialize<List<Data>>(jsonText);
+                source = System.Text.Json.JsonSerializer.Deserialize<List<Data>>(jsonText);
+                //foreach (var item in source)
+                //{
+                //    label1.Text += item.Id.ToString();
+                //}
+
+            }
+
+           //File.WriteAllText(path, writeResult);
         }
     }
 }
