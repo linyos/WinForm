@@ -15,5 +15,8 @@ namespace WinForm_Chart.Model
         public string Lastname { get; set; }
        
         public string City { get; set; }
+
+
+        public ParaData ParaData { get; set; }
     }
 }
