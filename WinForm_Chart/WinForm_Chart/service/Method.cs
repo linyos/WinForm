@@ -6,25 +6,49 @@ using System.Data;
 using System.Threading.Tasks;
 using System.Text.Json;
 using WinForm_Chart.Model;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System.Windows.Forms;
 using System.IO;
 
 namespace WinForm_Chart.service
 {
+    /// <summary>
+    ///  之後改成DI 方式注入
+    /// </summary>
    public static class Method
     {
-
-
-        public static List<Data> ReadJson(string path )
+        private static string path = @"C:\SEN\Coding\C#\WinForm\WinForm_Chart\WinForm_Chart\test.json";
+        public static List<Data> ReadJson(string path)
         {
-            List<Data> source = new List<Data>();
-            //string path = @"C:\SEN\Coding\C#\WinForm\WinForm_Chart\WinForm_Chart\test.json";
-            using (StreamReader reader = new StreamReader(path))
+            List<Data> data1;
+            using (StreamReader file = File.OpenText(path))
             {
-                string jsonText = reader.ReadToEnd();
-                source = System.Text.Json.JsonSerializer.Deserialize<List<Data>>(jsonText);
+                Newtonsoft.Json.JsonSerializer jsonSerializer = new Newtonsoft.Json.JsonSerializer();
+                data1 = (List<Data>)jsonSerializer.Deserialize(file, typeof(List<Data>));
             }
-            return source;
+            return data1;
         }
+
+
+        public static void  ReviseJson(int idx, int id)
+        {
+
+           
+            string json = File.ReadAllText(path);
+            //dynamic jsonObj = new Data();
+            dynamic jsonObj = new List<Data>();
+            JsonConvert.PopulateObject(json, jsonObj);
+            jsonObj[idx].Id = id;
+            using (StreamWriter file = File.CreateText(path))
+            {
+
+                Newtonsoft.Json.JsonSerializer jsonSerializer1 = new Newtonsoft.Json.JsonSerializer();
+                jsonSerializer1.Serialize(file, jsonObj);
+
+            }
+        }
+
+
     }
 }

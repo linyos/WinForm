@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System.Text.Json;
 using WinForm_Chart.Model;
 using WinForm_Chart.service;
@@ -43,13 +44,8 @@ namespace WinForm_Chart
        
         private void DBBind()
         {
-   
-            //string path = @"C:\SEN\Coding\C#\WinForm\WinForm_Chart\WinForm_Chart\test.json";
-           
-           
-            var source =Method.ReadJson(path);
-
-
+            var source =  Method.ReadJson(path);
+            dt.Clear();
             foreach (var item in source)
             {
                 DataRow dr = dt.NewRow();
@@ -59,14 +55,11 @@ namespace WinForm_Chart
                 dr["City"] = item.City;
                 dt.Rows.Add(dr);
             }
-        
-        
         }
-
-
         private void Form2_Load(object sender, EventArgs e)
         {
-         
+          
+          
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -104,43 +97,19 @@ namespace WinForm_Chart
             //int rows = dataGridView1.CurrentCell.ColumnIndex;
             //int cells = dataGridView1.CurrentCell.RowIndex;
             ////dataGridView1.Rows[cells].Cells[rows].Value = textBox1.Text;
-           
+
             //dataGridView1.CurrentRow.Cells["ID"].Value = textBox1.Text;
             //dataGridView1.CurrentRow.Cells["Firstname"].Value = textBox2.Text;
+
+            //ReviseJson(int.Parse(textBox1.Text));
+            int idx = dataGridView1.CurrentCell.RowIndex;
+            Method.ReviseJson( idx , int.Parse(textBox1.Text));
+
             
-            ReviseJson();
+           
         }
 
 
-        private void ReviseJson()
-        {
-            //string json = File.ReadAllText(path);
-            //dynamic jsonObj = JsonConvert.DeserializeObject(json);
-            //jsonObj["Id"] = 550;
-            //string output = JsonConvert.SerializeObject(jsonObj, Newtonsoft.Json.Formatting.Indented);
-            //File.WriteAllText(path, output);
-
-
-            //dynamic jsonObj = Newtonsoft.Json.JsonConvert.DeserializeObject(json);
-            //jsonObj["Bots"][0]["Password"] = "new password";
-            //string output = Newtonsoft.Json.JsonConvert.SerializeObject(jsonObj, Newtonsoft.Json.Formatting.Indented);
-            //File.WriteAllText("settings.json", output);
-
-            List<Data> source = new List<Data>();
-            string writeResult = null;
-            using (StreamReader reader = new StreamReader(path))
-            {
-                string jsonText = reader.ReadToEnd();
-                 dynamic jsonObj = System.Text.Json.JsonSerializer.Deserialize<List<Data>>(jsonText);
-                source = System.Text.Json.JsonSerializer.Deserialize<List<Data>>(jsonText);
-                //foreach (var item in source)
-                //{
-                //    label1.Text += item.Id.ToString();
-                //}
-
-            }
-
-           //File.WriteAllText(path, writeResult);
-        }
+        
     }
 }
