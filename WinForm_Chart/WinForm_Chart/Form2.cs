@@ -19,7 +19,29 @@ namespace WinForm_Chart
 {
     public partial class Form2 : Form
     {
+
+        public class RetrieveMultipleResponse
+        {
+            public List<Attribute> Attributes { get; set; }
+            public string Name { get; set; }
+            public string Id { get; set; }
+        }
+        public class Value
+        {
+            [JsonProperty("Value")]
+            public string value { get; set; }
+            public List<string> Values { get; set; }
+        }
+        public class Attribute
+        {
+            public string Key { get; set; }
+            public Value Value { get; set; }
+        }
+
+
+
         public DataTable dt;
+
         private readonly string path = @"C:\SEN\Coding\C#\WinForm\WinForm_Chart\WinForm_Chart\test.json";
         public Form2()
         {
@@ -36,6 +58,8 @@ namespace WinForm_Chart
                 table.Columns.Add("Firstname", typeof(string));
                 table.Columns.Add("Lastname", typeof(string));
                 table.Columns.Add("City", typeof(string));
+                table.Columns.Add("Name", typeof(string));
+                table.Columns.Add("Type", typeof(int));
                 return table;
             }
         }
@@ -44,7 +68,7 @@ namespace WinForm_Chart
        
         private void DBBind()
         {
-            var source =  Method.ReadJson(path);
+            var source = Method.ReadJsonType<Data>(path);
             dt.Clear();
             foreach (var item in source)
             {
@@ -53,13 +77,13 @@ namespace WinForm_Chart
                 dr["Firstname"] = item.Firstname;
                 dr["Lastname"] = item.Lastname;
                 dr["City"] = item.City;
+                dr["Name"] = item.ParamData.Name;
+                dr["Type"] = item.ParamData.Type;
                 dt.Rows.Add(dr);
             }
         }
         private void Form2_Load(object sender, EventArgs e)
         {
-          
-          
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -102,9 +126,12 @@ namespace WinForm_Chart
             //dataGridView1.CurrentRow.Cells["Firstname"].Value = textBox2.Text;
 
             //ReviseJson(int.Parse(textBox1.Text));
+
+
+
             int idx = dataGridView1.CurrentCell.RowIndex;
             Method.ReviseJson( idx , int.Parse(textBox1.Text));
-
+         
             
            
         }

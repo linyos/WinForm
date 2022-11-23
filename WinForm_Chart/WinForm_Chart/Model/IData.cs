@@ -25,17 +25,7 @@ namespace WinForm_Chart.Model
         [Description("City")]
         public string City { get; set; }
 
-        [Description("ParamData")]
-        public ParaData ParaData { get; set; }
+        //[Description("ParamData")]
+        public ParamData ParamData { get; set; }
     }
-
-
-    public interface ParaData
-    {
-        [JsonProperty("parma1")]
-        public int param1 { get; set; }
-        [JsonProperty("param2")]
-        public int param2 { get; set; }
-    }
- 
 }

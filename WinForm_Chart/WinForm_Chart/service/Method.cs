@@ -19,6 +19,12 @@ namespace WinForm_Chart.service
    public static class Method
     {
         private static string path = @"C:\SEN\Coding\C#\WinForm\WinForm_Chart\WinForm_Chart\test.json";
+        
+        /// <summary>
+        /// 單純Read json file 
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
         public static List<Data> ReadJson(string path)
         {
             List<Data> data1;
@@ -27,6 +33,7 @@ namespace WinForm_Chart.service
                 Newtonsoft.Json.JsonSerializer jsonSerializer = new Newtonsoft.Json.JsonSerializer();
                 data1 = (List<Data>)jsonSerializer.Deserialize(file, typeof(List<Data>));
             }
+            
             return data1;
         }
 
@@ -47,6 +54,23 @@ namespace WinForm_Chart.service
                 jsonSerializer1.Serialize(file, jsonObj);
 
             }
+        }
+
+ 
+
+        public static List<T> ReadJsonType <T>(string path)
+        {
+            string fileName = path;
+            string jsonString= File.ReadAllText(fileName);
+            var objResponse1 = JsonDeserialize<T>(jsonString);
+            return objResponse1;
+            
+        }
+
+        public static List<T> JsonDeserialize<T>(this string SerializedJSONString)
+        {
+            var stuff = JsonConvert.DeserializeObject<List<T>>(SerializedJSONString);
+            return stuff;
         }
 
 
