@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace WinForm_Chart.Model
 {
-   public class Data : IData
+
+    public class Data : IData
     {
         public int Id { get; set; }
         
@@ -16,7 +17,13 @@ namespace WinForm_Chart.Model
        
         public string City { get; set; }
 
-
-        public ParaData ParaData { get; set; }
+        public  ParamData ParamData { get; set; }
+    }
+    public class ParamData
+    {
+      
+        public string Name { get; set; }
+       
+        public int Type { get; set; }
     }
 }
