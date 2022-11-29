@@ -42,7 +42,10 @@ namespace WinForm_Chart
 
         public DataTable dt;
 
-        private readonly string path = @"C:\SEN\Coding\C#\WinForm\WinForm_Chart\WinForm_Chart\test.json";
+        //private readonly string path = @"C:\SEN\Coding\C#\WinForm\WinForm_Chart\WinForm_Chart\test.json";
+        private readonly string path = Directory.GetCurrentDirectory()+"\\test.json"; 
+
+
         public Form2()
         {
             InitializeComponent();
@@ -77,8 +80,14 @@ namespace WinForm_Chart
                 dr["Firstname"] = item.Firstname;
                 dr["Lastname"] = item.Lastname;
                 dr["City"] = item.City;
-                dr["Name"] = item.ParamData.Name;
-                dr["Type"] = item.ParamData.Type;
+
+                dr["Name"] = (from s in item.ParamData
+                             select s.Name).First();
+
+                dr["Type"] = (from s in item.ParamData
+                              select s.Type).First();
+              
+
                 dt.Rows.Add(dr);
             }
         }

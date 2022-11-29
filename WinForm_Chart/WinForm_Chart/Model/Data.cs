@@ -17,7 +17,9 @@ namespace WinForm_Chart.Model
        
         public string City { get; set; }
 
-        public  ParamData ParamData { get; set; }
+        public List<ParamData> ParamData { get; set; }
+
+        //public object ParamData ParamData { get; set; }
     }
     public class ParamData
     {

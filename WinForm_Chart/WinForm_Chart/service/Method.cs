@@ -18,7 +18,7 @@ namespace WinForm_Chart.service
     /// </summary>
    public static class Method
     {
-        private static string path = @"C:\SEN\Coding\C#\WinForm\WinForm_Chart\WinForm_Chart\test.json";
+        private static string path = Directory.GetCurrentDirectory().ToString() +"\\test.json";
         
         /// <summary>
         /// 單純Read json file 
