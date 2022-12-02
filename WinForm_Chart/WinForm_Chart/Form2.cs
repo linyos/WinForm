@@ -20,34 +20,24 @@ namespace WinForm_Chart
     public partial class Form2 : Form
     {
 
-        public class RetrieveMultipleResponse
-        {
-            public List<Attribute> Attributes { get; set; }
-            public string Name { get; set; }
-            public string Id { get; set; }
-        }
-        public class Value
-        {
-            [JsonProperty("Value")]
-            public string value { get; set; }
-            public List<string> Values { get; set; }
-        }
-        public class Attribute
-        {
-            public string Key { get; set; }
-            public Value Value { get; set; }
-        }
-
-
-
+     
         public DataTable dt;
+        public DataTable dt1;
 
-        private readonly string path = @"C:\SEN\Coding\C#\WinForm\WinForm_Chart\WinForm_Chart\test.json";
+        public ParamData _ParamData; // 選到的資料
+        private readonly string path = Directory.GetCurrentDirectory()+"\\test.json"; 
+
+
         public Form2()
         {
             InitializeComponent();
-            dt = dt ?? BuildDataTable();
-            dataGridView1.DataSource = dt;
+            //dt = dt ?? BuildDataTable();
+            //dataGridView1.DataSource = dt;
+
+
+            //dt1 = dt1 ?? BuildDB();
+            //dataGridView2.DataSource = dt1;
+
         }
         
         private DataTable BuildDataTable()
@@ -59,11 +49,20 @@ namespace WinForm_Chart
                 table.Columns.Add("Lastname", typeof(string));
                 table.Columns.Add("City", typeof(string));
                 table.Columns.Add("Name", typeof(string));
-                table.Columns.Add("Type", typeof(int));
+                table.Columns.Add("Type", typeof(int)) ;
                 return table;
             }
         }
 
+        private DataTable BuildDB()
+        {
+            using (DataTable table = new DataTable())
+            {
+                table.Columns.Add("Name", typeof(string));
+                table.Columns.Add("Type", typeof(int));
+                return table;
+            }
+        }
 
        
         private void DBBind()
@@ -106,8 +105,14 @@ namespace WinForm_Chart
                 dr["Firstname"] = item.Firstname;
                 dr["Lastname"] = item.Lastname;
                 dr["City"] = item.City;
-                dr["Name"] = item.ParamData.Name;
-                dr["Type"] = item.ParamData.Type;
+
+                dr["Name"] = (from s in item.ParamData
+                             select s.Name).First();
+
+                dr["Type"] = (from s in item.ParamData
+                              select s.Type).First();
+              
+
                 dt.Rows.Add(dr);
             }
         }
@@ -117,14 +122,51 @@ namespace WinForm_Chart
 
         private void button1_Click(object sender, EventArgs e)
         {
-            DBBind();
+            //DBBind();
+            var source = Method.ReadJsonType<Data>(path);
+            // 原始方法 : 使用dataRow 建立欄位
+            //dt.Clear();
+            //foreach (var item in source)
+            //{
+            //    DataRow dr = dt.NewRow();
+            //    dr["ID"] = item.Id;
+            //    dr["Firstname"] = item.Firstname;
+            //    dr["Lastname"] = item.Lastname;
+            //    dr["City"] = item.City;
+
+            //    dr["Name"] = (from s in item.ParamData
+            //                  select s.Name).First();
+
+            //    dr["Type"] = (from s in item.ParamData
+            //                  select s.Type).First();
+
+
+            //    dt.Rows.Add(dr);
+            //}
+
+
+            // 新屬性
+            var dataLists = new List<DataList>();
+            // 列舉所有資料屬性
+            foreach (var item in source.ToList())
+            {
+                // 新屬性與所有屬性對接 (架構內容還是新屬性，但是所有資料屬性會輸入到指定屬性裡)
+                var newData = new DataList()
+                {
+                    Id = item.Id
+                };
+                // 再加入新創屬性列表中
+                dataLists.Add(newData);
+            }
+            // 表格資料來源是新屬性
+            dataGridView1.DataSource = dataLists;
         }
 
         private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             //label1.Text = "Rows: " + e.RowIndex.ToString() + " Col: " + e.ColumnIndex.ToString();
             //label1.Text = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
-          //label1.Text=  dataGridView1.CurrentRow.Cells["ID"].Value.ToString();
+            //label1.Text=  dataGridView1.CurrentRow.Cells["ID"].Value.ToString();
         }
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -135,8 +177,13 @@ namespace WinForm_Chart
                 textBox2.Text = dataGridView1.CurrentRow.Cells["Firstname"].FormattedValue.ToString();
                 textBox3.Text = dataGridView1.CurrentRow.Cells["Lastname"].FormattedValue.ToString();
                 textBox4.Text = dataGridView1.CurrentRow.Cells["City"].FormattedValue.ToString();
+
+                textBox5.Text = dataGridView1.CurrentRow.Cells["Name"].FormattedValue.ToString();
+                textBox6.Text = dataGridView1.CurrentRow.Cells["Type"].FormattedValue.ToString();
+
+
             }
-            
+
         }
 
         private void button2_Click(object sender, EventArgs e)
