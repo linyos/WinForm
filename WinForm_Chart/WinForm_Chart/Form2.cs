@@ -69,6 +69,35 @@ namespace WinForm_Chart
         private void DBBind()
         {
             var source = Method.ReadJsonType<Data>(path);
+
+            var query = from c in source
+                        where c != null
+                        select new
+                        {
+                            ParamData = c.ParamData,
+                            Id = c.Id
+                        };
+                        
+
+
+            
+            //foreach (var s in query)
+            //{
+            //    label1.Text = s.Id.ToString();
+            //}
+            
+            //foreach (var s in source)
+            //{
+            //    if (s.ParamData.Name is null)
+            //    {
+            //        throw new ArgumentNullException(nameof(ParamData));
+            //        //label1.Text = s.Id.ToString();
+            //    }
+            //}
+
+
+
+
             dt.Clear();
             foreach (var item in source)
             {
