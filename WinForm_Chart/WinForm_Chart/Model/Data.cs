@@ -13,7 +13,14 @@ namespace WinForm_Chart.Model
     public class  DataList  
     {
         [DisplayName("編號")]
-        public int Id { get; set; }
+        public string Name { get; set; }
+
+        [DisplayName("型態")]
+        public int Type { get; set; }
+
+        [DisplayName("參數")]
+        public List<ParamData> tempData { get; set; }
+
     }
 
 
