@@ -111,8 +111,7 @@ namespace WinForm_Chart
 
                 dr["Type"] = (from s in item.ParamData
                               select s.Type).First();
-              
-
+             
                 dt.Rows.Add(dr);
             }
         }
