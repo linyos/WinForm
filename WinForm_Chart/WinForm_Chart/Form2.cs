@@ -182,10 +182,10 @@ namespace WinForm_Chart
         {
             if (e.RowIndex >= 0)
             {
-                textBox1.Text = dataGridView1.CurrentRow.Cells["ID"].FormattedValue.ToString();
-                textBox2.Text = dataGridView1.CurrentRow.Cells["Firstname"].FormattedValue.ToString();
-                textBox3.Text = dataGridView1.CurrentRow.Cells["Lastname"].FormattedValue.ToString();
-                textBox4.Text = dataGridView1.CurrentRow.Cells["City"].FormattedValue.ToString();
+                //textBox1.Text = dataGridView1.CurrentRow.Cells["ID"].FormattedValue.ToString();
+                //textBox2.Text = dataGridView1.CurrentRow.Cells["Firstname"].FormattedValue.ToString();
+                //textBox3.Text = dataGridView1.CurrentRow.Cells["Lastname"].FormattedValue.ToString();
+                //textBox4.Text = dataGridView1.CurrentRow.Cells["City"].FormattedValue.ToString();
 
                 textBox5.Text = dataGridView1.CurrentRow.Cells["Name"].FormattedValue.ToString();
                 textBox6.Text = dataGridView1.CurrentRow.Cells["Type"].FormattedValue.ToString();
