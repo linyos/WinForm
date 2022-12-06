@@ -68,35 +68,6 @@ namespace WinForm_Chart
         private void DBBind()
         {
             var source = Method.ReadJsonType<Data>(path);
-
-            var query = from c in source
-                        where c != null
-                        select new
-                        {
-                            ParamData = c.ParamData,
-                            Id = c.Id
-                        };
-                        
-
-
-            
-            //foreach (var s in query)
-            //{
-            //    label1.Text = s.Id.ToString();
-            //}
-            
-            //foreach (var s in source)
-            //{
-            //    if (s.ParamData.Name is null)
-            //    {
-            //        throw new ArgumentNullException(nameof(ParamData));
-            //        //label1.Text = s.Id.ToString();
-            //    }
-            //}
-
-
-
-
             dt.Clear();
             foreach (var item in source)
             {
@@ -124,51 +95,42 @@ namespace WinForm_Chart
             //DBBind();
             var source = Method.ReadJsonType<Data>(path);
             // 原始方法 : 使用dataRow 建立欄位
-            //dt.Clear();
-            //foreach (var item in source)
-            //{
-            //    DataRow dr = dt.NewRow();
-            //    dr["ID"] = item.Id;
-            //    dr["Firstname"] = item.Firstname;
-            //    dr["Lastname"] = item.Lastname;
-            //    dr["City"] = item.City;
-            //    dr["Name"] = (from s in item.ParamData
-            //                  select s.Name).First();
-            //    dr["Type"] = (from s in item.ParamData
-            //                  select s.Type).First();
-            //    dt.Rows.Add(dr);
-            //}
-
-
-            // 新屬性
-            var dataLists = new  List<DataList>();
-            // 列舉所有資料屬性
-            foreach (var item in source.ToList())
+            var dataLists = new List<Data>();
+            foreach (var item in source)
             {
-                // 新屬性與所有屬性對接 (架構內容還是新屬性，但是所有資料屬性會輸入到指定屬性裡)
-                var newData = new DataList()
+                var dr = new Data()
                 {
-                    Name = (from s in item.ParamData
-                            select s.Name).First(),
-                    Type = (from s in item.ParamData
-                            select s.Type).First()
+                    Id = item.Id,
+                    Firstname = item.Firstname,
+                    Lastname = item.Lastname,
+                    City = item.City,
+                    ParamData = item.ParamData,
                 };
-
-                //var newData = new DataList()
-                //{
-                //    tempData = item.ParamData
-                //};
-
-                // 再加入新創屬性列表中
-                //dataLists.Add(newData);
-
-                dataLists.Add(newData);
-               
+                dataLists.Add(dr);
+            
             }
+
+            dataGridView1.DataSource = dataLists;
+            // 新屬性
+            //var dataLists = new  List<DataList>();
+            //// 列舉所有資料屬性
+            //foreach (var item in source.ToList())
+            //{
+            //    //// 新屬性與所有屬性對接 (架構內容還是新屬性，但是所有資料屬性會輸入到指定屬性裡)
+            //    var newData = new DataList()
+            //    {
+            //        Name = (from s in item.ParamData
+            //                select s.Name).First(),
+            //        Type = (from s in item.ParamData
+            //                select s.Type).First(),
+            //        tempData = item.ParamData
+            //    };
+            //    ////再加入新創屬性列表中
+            //    dataLists.Add(newData);
+            //}
             // 表格資料來源是新屬性
             //dataGridView1.DataSource = dataLists;
-        
-            dataGridView1.DataSource = source;
+            //dataGridView1.DataSource = source;
         }
 
         private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
