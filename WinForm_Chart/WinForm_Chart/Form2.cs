@@ -187,8 +187,8 @@ namespace WinForm_Chart
                 //textBox3.Text = dataGridView1.CurrentRow.Cells["Lastname"].FormattedValue.ToString();
                 //textBox4.Text = dataGridView1.CurrentRow.Cells["City"].FormattedValue.ToString();
 
-                textBox5.Text = dataGridView1.CurrentRow.Cells["Name"].FormattedValue.ToString();
-                textBox6.Text = dataGridView1.CurrentRow.Cells["Type"].FormattedValue.ToString();
+                //textBox5.Text = dataGridView1.CurrentRow.Cells["Name"].FormattedValue.ToString();
+                //textBox6.Text = dataGridView1.CurrentRow.Cells["Type"].FormattedValue.ToString();
 
 
 
