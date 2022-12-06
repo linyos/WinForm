@@ -50,8 +50,7 @@ namespace WinForm_Chart
         private void Form1_Load(object sender, EventArgs e)
         {
             //DirectoryInfo dir = new DirectoryInfo(System.Windows.Forms.Application.StartupPath);
-            label1.Text = Directory.GetCurrentDirectory().ToString();
-            
+            label1.Text = Directory.GetCurrentDirectory().ToString();   
             treeView1.CheckBoxes = true;
             treeView1.ShowLines = true;
 

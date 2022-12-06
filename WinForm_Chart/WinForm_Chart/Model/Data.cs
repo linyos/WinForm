@@ -41,7 +41,7 @@ namespace WinForm_Chart.Model
     }
     public class ParamData
     {
-        [DisplayName("稱號")]
+        [DisplayName("綽號")]
         public string Name { get; set; }
        [DisplayName("型態")]
         public int Type { get; set; }
