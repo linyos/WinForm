@@ -149,12 +149,12 @@ namespace WinForm_Chart
                 //textBox3.Text = dataGridView1.CurrentRow.Cells["Lastname"].FormattedValue.ToString();
                 //textBox4.Text = dataGridView1.CurrentRow.Cells["City"].FormattedValue.ToString();
 
-                //textBox5.Text = dataGridView1.CurrentRow.Cells["Name"].FormattedValue.ToString();
-                //textBox6.Text = dataGridView1.CurrentRow.Cells["Type"].FormattedValue.ToString();
+                ////textBox5.Text = dataGridView1.CurrentRow.Cells["Name"].FormattedValue.ToString();
+                ////textBox6.Text = dataGridView1.CurrentRow.Cells["Type"].FormattedValue.ToString();
 
 
 
-                label1.Text = dataGridView1.CurrentRow.Cells[e.ColumnIndex].Value.ToString();
+                //label1.Text = dataGridView1.CurrentRow.Cells[e.ColumnIndex].Value.ToString();
 
                
 
@@ -189,7 +189,112 @@ namespace WinForm_Chart
            
         }
 
+        private void button3_Click(object sender, EventArgs e)
+        {
+            string json = File.ReadAllText(path);
 
+
+            // Method 1 : Descialize
+            // 反序列為物件
+            dynamic jsonObj = Newtonsoft.Json.JsonConvert.DeserializeObject(json);
+            // 改變值
+            jsonObj[0]["Bots"][0]["Password"] = "New0000";
+            // 序列為物件
+            string output = Newtonsoft.Json.JsonConvert.SerializeObject(jsonObj, Newtonsoft.Json.Formatting.Indented);
+            // 寫入檔案
+            File.WriteAllText(path, output);
+
+            string json1 = File.ReadAllText(path);
+            // 新增物件
+            //// 轉換成 JArray
+            JArray jArray = JsonConvert.DeserializeObject<JArray>(json1);
+            var itemToAdd = new JObject();
+            // JObject 加欄位
+            // 如果屬性是陣列 ， 要轉換
+            var AStr = new[] { "A" };
+            itemToAdd.Add("Admins", JArray.FromObject(AStr));
+            //  JObject 加到 JArray
+            jArray.Add(itemToAdd);
+            var jsonToOut = JsonConvert.SerializeObject(jArray, Formatting.Indented);
+            File.WriteAllText(path, jsonToOut);
+
+
+            // 也是寫入的方法，但不適用
+            //var rootObj = new RootObject();
+            //JsonConvert.PopulateObject(json, rootObj);
+            //rootObj.Bots[0].Password = "New Password";
+
+            //using (StreamWriter file = File.CreateText(path))
+            //{
+            //    Newtonsoft.Json.JsonSerializer jsonSerializer = new Newtonsoft.Json.JsonSerializer();
+            //    jsonSerializer.Serialize(file, rootObj);
+            //}
+
+
+        }
+        private void button4_Click(object sender, EventArgs e)
+        {
         
+           
+
+            string json = File.ReadAllText(path);
+            // 轉換成 JArray
+            JArray jArray = JsonConvert.DeserializeObject<JArray>(json);
+
+            //var array = JArray.Parse(json);
+            // 新建 
+            var itemToAdd = new JObject();
+            // JObject 加欄位
+            itemToAdd.Add("Name" ,"B");
+
+
+            // 如果屬性是陣列 ， 要轉換
+            var AStr = new[] { "A", "B", "C" };
+            itemToAdd.Add("A",JArray.FromObject(AStr));
+
+            //  JObject 加到 JArray
+            jArray.Add(itemToAdd);
+            
+            var jsonToOut = JsonConvert.SerializeObject(jArray, Formatting.Indented);
+            File.WriteAllText(path, jsonToOut);
+        }
+
+        public class Bot
+        {
+            public string Username { get; set; }
+            public string Password { get; set; }
+            public string DisplayName { get; set; }
+            public string Backpack { get; set; }
+            public string ChatResponse { get; set; }
+            public string logFile { get; set; }
+            public string BotControlClass { get; set; }
+            public int MaximumTradeTime { get; set; }
+            public int MaximumActionGap { get; set; }
+            public string DisplayNamePrefix { get; set; }
+            public int TradePollingInterval { get; set; }
+            public string LogLevel { get; set; }
+            public string AutoStart { get; set; }
+        }
+
+
+
+        public class RootObject
+        {
+            public List<string> Admins { get; set; }
+            public string ApiKey { get; set; }
+            public string mainLog { get; set; }
+            public string UseSeparateProcesses { get; set; }
+            public string AutoStartAllBots { get; set; }
+            public List<Bot> Bots { get; set; }
+        }
+
+
+
+
+        public class  KbmObj
+        {
+            public string Name { get; set; }
+            public List<string> A { get; set; } 
+        }
     }
 }
