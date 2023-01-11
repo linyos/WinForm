@@ -296,5 +296,14 @@ namespace WinForm_Chart
             public string Name { get; set; }
             public List<string> A { get; set; } 
         }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            Form3 form3 = new Form3();
+            this.Hide();
+            form3.ShowDialog();
+
+            this.Close();
+        }
     }
 }
