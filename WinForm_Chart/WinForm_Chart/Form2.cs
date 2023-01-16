@@ -305,5 +305,20 @@ namespace WinForm_Chart
 
             this.Close();
         }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            string json = File.ReadAllText(path);
+            // 轉換成 JArray
+            dynamic jsonObj = Newtonsoft.Json.JsonConvert.DeserializeObject(json);
+            JObject obj = jsonObj[1];
+            // 刪除整個物件
+            obj.Remove();
+            // 刪除物件的其中一項
+            //obj.Property("A").Remove();
+            //obj["A"].Remove();
+             var jsonToOut = JsonConvert.SerializeObject(jsonObj, Formatting.Indented);
+            File.WriteAllText(path, jsonToOut);
+        }
     }
 }
