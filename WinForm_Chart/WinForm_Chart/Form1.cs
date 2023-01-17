@@ -12,6 +12,7 @@ using System.IO;
 using Newtonsoft.Json;
 namespace WinForm_Chart
 {
+    
     public partial class Form1 : Form
     {
         public DataTable dt;
@@ -23,7 +24,7 @@ namespace WinForm_Chart
         private int TextColIndex = 2;
 
 
-
+        private ContextMenuStrip ContextMenuStrip1 = new ContextMenuStrip();
         //public class Data
         //{
         //    //[JsonProperty("age")]
@@ -295,9 +296,15 @@ namespace WinForm_Chart
             label1.Text = moive.ToString();
 
         }
+        
+     
+      
 
-
-
+        private void toolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            ListBox listBox = sender as ListBox;
+            MessageBox.Show("刪除"+listBox1.SelectedItem.ToString());
+        }
 
         /// <summary>
         /// Revise DataGridView  Value
@@ -307,7 +314,7 @@ namespace WinForm_Chart
         //private void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         //{
         //    label1.Text = "Change Value";
-            
+
         //    //label1.Text = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
         //}
     }

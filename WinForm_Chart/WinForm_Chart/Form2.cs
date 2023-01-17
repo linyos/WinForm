@@ -25,9 +25,9 @@ namespace WinForm_Chart
         public DataTable dt1;
 
         public ParamData _ParamData; // 選到的資料
-        private readonly string path = Directory.GetCurrentDirectory()+"\\test.json"; 
+        private readonly string path = Directory.GetCurrentDirectory()+"\\test.json";
 
-
+        private int _gridViewRow = 0;
         public Form2()
         {
             InitializeComponent();
@@ -319,6 +319,60 @@ namespace WinForm_Chart
             //obj["A"].Remove();
              var jsonToOut = JsonConvert.SerializeObject(jsonObj, Formatting.Indented);
             File.WriteAllText(path, jsonToOut);
+        }
+
+        private void delectToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+           // label1.Text = dataGridView1.SelectedRows[0].Cells[0].Value.ToString();
+
+            // 回傳點到的位置
+            if (dataGridView1.Rows.Count != 0)
+            {
+                foreach (DataGridViewRow row in dataGridView1.Rows)
+                {
+                    if (row.Selected)
+                    {
+                        label1.Text = row.Index.ToString();
+                        Delet(row.Index);
+
+                    }
+                }
+            }
+            // 重讀一次
+            var source = Method.ReadJsonType<Data>(path);
+            // 原始方法 : 使用dataRow 建立欄位
+            var dataLists = new List<Data>();
+            foreach (var item in source)
+            {
+                var dr = new Data()
+                {
+                    Id = item.Id,
+                    Firstname = item.Firstname,
+                    Lastname = item.Lastname,
+                    City = item.City,
+                    ParamData = item.ParamData,
+                };
+                dataLists.Add(dr);
+
+            }
+
+            dataGridView1.DataSource = dataLists;
+        }
+
+        private  void Delet(int index)
+        {
+            string json = File.ReadAllText(path);
+            // 轉換成 JArray
+            dynamic jsonObj = Newtonsoft.Json.JsonConvert.DeserializeObject(json);
+            JObject obj = jsonObj[index];
+            // 刪除整個物件
+            obj.Remove();
+            // 刪除物件的其中一項
+            //obj.Property("A").Remove();
+            //obj["A"].Remove();
+            var jsonToOut = JsonConvert.SerializeObject(jsonObj, Formatting.Indented);
+            File.WriteAllText(path, jsonToOut);
+
         }
     }
 }
