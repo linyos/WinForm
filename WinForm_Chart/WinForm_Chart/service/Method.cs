@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Data;
 using System.Threading.Tasks;
-using System.Text.Json;
 using WinForm_Chart.Model;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;

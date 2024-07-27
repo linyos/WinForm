@@ -10,7 +10,6 @@ using System.Windows.Forms;
 using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System.Text.Json;
 using WinForm_Chart.Model;
 using WinForm_Chart.service;
 
