@@ -1,4 +1,5 @@
 ﻿using MySql.Data.MySqlClient;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -17,7 +18,7 @@ namespace WinForm_Chart.View
     {
 
         private readonly ISQLController _controller = null;
-    
+        
         public MainView(ISQLController controller)
         {
             _controller = controller ?? throw new ArgumentNullException(nameof(controller));
@@ -27,6 +28,10 @@ namespace WinForm_Chart.View
 
         private void MainView_Load(object sender, EventArgs e)
         {
+       
+            NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+            Logger.Info("MainView_Load");
+
             if (_controller.ConnectSQL(out MySqlConnection connection))
             {
                 labelX1.Text = "連結成功";

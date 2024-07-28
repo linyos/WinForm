@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using WinForm_Chart.View;
+using NLog;
+using Serilog;
 
 
 namespace WinForm_Chart.Controller
@@ -15,12 +17,13 @@ namespace WinForm_Chart.Controller
 
         // 頁面
         private MainView mainView = null;
-        private readonly ISQLController _controller = null; 
-        
-        public MainController(ISQLController controller)
+        private readonly ISQLController _controller = null;
+        // Nlog
+        private NLog.ILogger _logger = null; 
+        public MainController(NLog.ILogger logger ,ISQLController controller)
         {
-            _controller = controller ??     throw new ArgumentNullException(nameof(controller)); 
-
+            _logger = logger; 
+            _controller = controller ??     throw new ArgumentNullException(nameof(controller));
         }
 
 
@@ -28,8 +31,11 @@ namespace WinForm_Chart.Controller
         {
             using (mainView = new MainView(_controller))
             {
+                _logger.Info("開啟");
 
-               
+
+
+
                 Application.Run(mainView);
             }
         }

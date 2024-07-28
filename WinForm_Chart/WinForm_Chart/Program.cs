@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using WinForm_Chart.Controller;
+using System.Reflection;
 
 namespace WinForm_Chart
 {
@@ -22,14 +23,26 @@ namespace WinForm_Chart
             //Application.SetCompatibleTextRenderingDefault(false);
             //Application.Run(new Form1());
 
-
-            var startup = new StartUp();
-            container = startup.Initalize();
-            using (var scope = container.BeginLifetimeScope())
+            try
             {
-                var control = scope.Resolve<IMainController>();
-                control.DoWork();
+                var startup = new StartUp();
+                container = startup.Initalize();
+                using (var scope = container.BeginLifetimeScope())
+                {
+                    var control = scope.Resolve<IMainController>();
+                    control.DoWork();
+                }
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                throw;
+            }
+            finally
+            {
+                container?.Dispose();
+            }
+           
         }
     }
 }
